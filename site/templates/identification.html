@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Identification</title>
+        <link href="{{ url_for('static', path='/css/main.css') }}" rel="stylesheet">
+        <script type="text/javascript" src="../static/js/affichage.js"></script>
+        <script type="text/javascript" src="../static/js/dropdown-menu.js"></script>
+    </head>
+
+    <body>
+        {% extends "index.html"%}
+        {% block content %}
+            <h1> Identification de la langue </h1>
+
+            <!-- boutons faisant appel au script javascript affichage lorsqu'on clic dessus -->
+            <div class="btn-txt-file">
+                <button class="btn-choice" id="btn-choice-txt" onclick="affichage('texte')">Texte</button>
+                <button class="btn-choice" id="btn-choice-file" onclick="affichage('fichier')">Fichier</button>
+            </div>
+
+            <div class="container-bloc">
+                <div class="text-input" class="input-group mb-3">
+                    <h2>Identification de la langue d'un texte</h2>
+                    <form method="post" action="/afficher_la_langue">
+                        <textarea type="text" class="form-control" name="phrase" id="user_text" aria-label="With textarea" aria-describedby="inputGroup-sizing-default" placeholder="Entrez le texte à identifier..."></textarea>
+                        <input id="langtext" type="submit" value="⏎"/>
+                    </form>
+                </div>
+
+                <div class="hidden_container d-none">
+                    <div class="file-input" class="input-group mb-3" class="d-none">
+                        <h2>Identification de la langue d'un fichier</h2>
+                        <form method="post" action="/afficher_la_langue_file" enctype="multipart/form-data">
+                            <label for="user_file">Sélectionnez un fichier à importer:</label>
+                            <div id="select_file" class="mx-auto text-center">
+                                <input type="file" name="file" id="user_file" accept="text/plain" />
+                            </div>
+                            <div>
+                                <input id="langfile" type="submit" value="⏎"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Affichage du résultat de l'identification -->
+                <div>
+                    {% if submit %}
+                        <div id="result">Langue détectée : {{ langue }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- menu déroulant expliquant le modèle utilisé pour l'identification -->
+            <div class="dropdown">
+                <button type="button" class="collapsible" onclick="unroll()">Comment ça fonctionne ?</button>
+                <div class="content">
+                    <p>Cette page a pour but d'identifier la langue d’un texte. Nous avons choisi de travailler sur 19 langues utilisant les caractères latins : 
+                        <ul style="list-style-type:none;">
+                            <li>🇮🇸 islandais</li>
+                            <li>🇩🇰 danois</li> 
+                            <li>🇩🇪 allemand</li>
+                            <li>🇬🇧 🇺🇸 anglais</li>
+                            <li>🇪🇸 espagnol</li>
+                            <li>🇪🇪 estonien</li> 
+                            <li>🇫🇮 finnois</li> 
+                            <li>🇫🇷 français</li>
+                            <li>🇭🇷 croate</li>
+                            <li>🇭🇺 hongrois</li>
+                            <li>🇮🇹 italien</li>
+                            <li>🇱🇻 letton</li>
+                            <li>🇳🇱 néerlandais</li>
+                            <li>🇵🇱 polonais</li>
+                            <li>🇵🇹 portugais</li>
+                            <li>🇷🇴 roumain</li>
+                            <li>🇸🇰 slovaque</li>
+                            <li>🇸🇮 slovène</li>
+                            <li>🇸🇪 suédois</li>
+                        </ul>
+                    </p>
+                    <p>Le modèle que nous avons utilisé pour l’identification de la langue est un modèle qui a été entraîné ultérieurement sur machine, en local, dans un cours du M1 pluriTAL. Ce modèle est basé sur de la régression logistique et les données utilisées ont été vectorisées avec CountVectorizer. </p>
+                    <p>Un modèle de régression logistique permet de prédire la probabilité qu’un événement se produise ou non. Lorsque la valeur prédite est supérieure à un seuil, l'événement est susceptible de se produire tandis que lorsque cette valeur est inférieure à ce même seuil, il ne l’est pas.</p>
+                    <p>⚠️ Quand les phrases données en input sont trop courtes, les prédictions sont souvent biaisées à cause des mesure prises en compte par le modèle (3 à 4 caractères).</p>
+                </div>
+            </div>
+        {% endblock %}
+    </body>
+</html>

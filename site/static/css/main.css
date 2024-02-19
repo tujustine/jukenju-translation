@@ -1,0 +1,379 @@
+/* Mode clair et sombre */
+
+.light-screen {
+    /* version claire du site */
+    /* image de fond de la page */
+    background-image: url("./img/degrade_light.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    /* changement de la police */
+    font-family: 'Montserrat', sans-serif;
+    min-width: 320px;
+}
+
+.dark-screen {
+    /* version sombre du site */
+    /* image de fond de la page */
+    background-image: url("./img/degrade_dark.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    /* changement de la police */
+    font-family: 'Montserrat', sans-serif;
+    min-width: 320px;
+}
+
+/**********************************************************/
+
+/* div principale de la page où se trouvera tout le contenu du site */
+#content {
+    /* position: absolute; */
+    border-radius: 10px;
+    padding:50px;
+    margin:50px;  
+    /* effet dégradé */
+    background: linear-gradient(117.13deg, rgba(255, 255, 255, 0.4) 0.44%, rgba(255, 255, 255, 0.1) 99.24%);
+    /* effet d'ombre */
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+    /* effet flou */
+    backdrop-filter: blur(20px);
+    margin-bottom: 150px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/**********************************************************/
+
+/* taille du logo */
+
+.logo img {
+    width: 80px;
+}
+
+/**********************************************************/
+
+/* retouches de la navbar */
+
+.nav-link {
+    margin:0 auto;
+    display:block;
+    /* !important afin de faire passer cette règle avant celle indiqué dans la classe venant de bootstrap */
+    color:rgba(33, 37, 41, 0.634) !important; 
+}
+
+#navbarNavAltMarkup {
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size : 20px;
+}
+
+.navbar-nav > a:hover{
+    color: rgb(33, 37, 41) !important;
+    font-weight: bold;
+}
+
+/**********************************************************/
+
+/* Styles pour le bouton de changement de thème */
+button#theme-switcher {
+    background-color: transparent;
+    border: none;
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    /* afin que l'élément soit au premier plan */
+    z-index: 1;
+}
+
+#theme-icon{
+    width: 100px;
+}
+/**********************************************************/
+
+/* footer */
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    /* flou en arrière plan pour ne pas confondre le texte du footer avec le texte du body */
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);    
+    background: #e3f2fd51;
+    color: rgb(33, 37, 41);
+    padding: 20px;
+    text-align: center;
+}
+
+#container {
+    height: 100%;
+}
+
+/**********************************************************/
+
+/* Mise en page des entrées dans la page d'identification et de traduction */
+
+.text-input form, .file-input form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    height: 300px;
+}
+
+.text-input input[type="file"], .file-input input[type="file"] {
+    margin-bottom: 20px;
+}
+
+.text-input input[type="file"]:hover, .file-input input[type="file"]:hover {
+    cursor: pointer;
+}
+
+/* flèche pour valider */
+.text-input input[type="submit"], .file-input input[type="submit"] {
+    background-color: #5A2A27;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+/* flèche pour valider */
+.text-input input[type="submit"]:hover, .file-input input[type="submit"]:hover {
+    background-color: rgba(91, 46, 45, 0.73);
+    cursor: pointer;
+}
+
+#user_text-trad {
+    margin-top: 15px;
+    min-width: 100%;
+    height: 300px;
+}
+
+#user_text {
+    min-width: 100%;
+    height: 300px;
+}
+
+#user_file {
+    width: 315px;
+    margin-top: 20px;
+}
+
+#select_file {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#trad-file-label {
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.container-bloc {
+    background-color: rgba(255, 255, 255, 0.29);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* mise en forme des boutons pour décider de l'entrée que l'on souhaite */
+
+#btn-choice-txt {
+    padding: 10px;
+    border-radius: 8px 8px 0px 0px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.29);
+    width: 230px;
+}
+
+#btn-choice-file {
+    padding: 10px;
+    border-radius: 8px 8px 0px 0px;
+    border: none;
+    background-color: #848181a5;
+    width: 230px;
+}
+
+.btn-txt-file {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+/* mise en page des boutons de choix de langue */
+.trad-langue {
+    margin-bottom: 4px;
+    width: 350px;
+    font-weight: bold;
+}
+
+.col {
+    min-width: 350px;
+}
+
+/* mise en page des boutons copier, télécharger et sélection de fichier*/
+#boutons {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+#copier {
+    background-color: #5A2A27;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+#telecharger{
+    background-color: #5A2A27;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+#copier:hover{
+    background-color: rgba(91, 46, 45, 0.73);
+}
+
+#telecharger:hover{
+    background-color: rgba(91, 46, 45, 0.73);
+}
+
+#user_file {
+    background-color: #5A2A27;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width : 350px;
+}
+
+#user_file:hover{
+    background-color: rgba(91, 46, 45, 0.73);
+}
+
+h2 {
+    text-align: center;
+    margin-top:50px;
+}
+
+/**********************************************************/
+
+/* affichage du résultat de l'identification et de la traduction */
+
+#result {
+    text-align: center;
+    font-size: 1.3em;
+    background-color: rgba(255, 255, 255, 0.29);
+    width: 50%;
+    margin:auto;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/**********************************************************/
+
+/* mise en forme des blocs de contenu dans l'onglet Accueil */
+
+.exo{
+    background-color: rgba(255, 255, 255, 0.29);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.exo > p{
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    text-align: justify;
+}
+.name_exo{
+    padding-top: 15px;
+    font-weight: bold;
+}
+
+.btn_accueil {
+    background-color: #5A2A27;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    width: 20%;
+}
+
+.btn_accueil:hover {
+    background-color: rgba(91, 46, 45, 0.73);
+}
+
+.centre {
+    text-align: center;
+}
+
+/**********************************************************/
+
+/* Formulaire de contact */
+
+#bouton_envoi {
+    background-color: #5A2A27;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+#bouton_envoi:hover {
+    background-color: rgba(91, 46, 45, 0.73);
+}
+
+/**********************************************************/
+
+/* Mise en forme du menu déroulant pour l'explication des modèles utilisés */
+
+/* Style du bouton qui ouvre et ferme le menu */
+.collapsible {
+    background: linear-gradient(117.13deg, rgba(255, 255, 255, 0.4) 0.44%, rgba(255, 255, 255, 0.1) 99.24%);
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 15px;
+    border-radius: 8px 8px 4px 4px;
+}
+
+/* Ajout d'une couleur de fond au bouton si on clique dessus ou si on passe dessus */
+.active, .collapsible:hover {
+    background-color: #5A2A27;
+}
+
+/* Style du contenu du menu. Note: caché par défaut */
+.content {
+    padding: 15px;
+    display: none;
+    overflow: hidden;
+    background: linear-gradient(117.13deg, rgba(255, 255, 255, 0.4) 0.44%, rgba(255, 255, 255, 0.1) 99.24%);
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
+    border-radius: 4px 4px 8px 8px;
+}
+
+/* menu et son contenu */
+.dropdown {
+    margin-top: 20px ; 
+}
+
+/**********************************************************/

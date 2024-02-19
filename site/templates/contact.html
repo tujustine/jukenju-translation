@@ -1,0 +1,58 @@
+<!--page de contact pour que l'utilisateur puisse laisser un message concernant son
+ressenti sur le site et partager ses éventuels commentaires-->
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>Prenez contact !</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <link href="{{ url_for('static', path='/css/main.css') }}" rel="stylesheet">
+        <script type="text/javascript" src="../static/js/contact.js"></script>
+    </head>
+
+    <body>
+        {% extends "index.html"%}
+        {% block content %}
+        <h1>Formulaire de contact</h1>
+        <!--cette div sera cachée pour afficher le message lorsque l'utilisateur aura envoyée son message-->
+        <div id="content_to_hide">
+            <p>Grâce à ce formulaire vous pouvez nous faire part de vos commentaires et suggestions sur l'application.</p>
+            <p>⚠️ Tous les champs du formulaire doivent être remplis</p>
+            <form action="/recup_message" method="post" id="contactform">
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <label for="prenom" class="col-sm-2 col-form-label fw-bold">Prénom </label>
+                        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="nom" class="col-sm-2 col-form-label fw-bold">Nom </label>
+                        <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom" required>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <label for="mail" class="col-sm-2 col-form-label fw-bold">Mail </label>
+                            <div class="col-sm-12">
+                                <input type="email" id="mail" class="form-control" name="mail" placeholder="jukenju@mail.com" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <label for="message" class="col-sm-2 col-form-label fw-bold">Dites nous tout ! </label>
+                            <div class="col-sm-12">
+                                <textarea id="message" class="form-control" name="message" placeholder="écrivez votre message" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto" id="btn-submit-contact">
+                <!-- bouton pour envoyer le formulaire et déclencher en même temps les fonctions qui lui sont associées -->
+                <button id="bouton_envoi" type="submit" class="btn btn-outline-light mb-4">Envoyer</button>
+            </div>
+            </form>
+        </div>
+        <!--    div dans laquelle sera affichée le message une fois le formulaire envoyé -->
+        <div id="rep"></div>
+        {% endblock %}
+    </body>
+</html>

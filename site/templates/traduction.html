@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Traduction</title>
+        <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="../static/js/traduction.js"></script>
+        <script type="text/javascript" src="../static/js/affichage.js"></script>
+        <script type="text/javascript" src="../static/js/dropdown-menu.js"></script>
+    </head>
+
+    <body>
+        {% extends "index.html"%}
+        {% block content %}
+            <h1> Traduction </h1>
+
+            <!-- boutons faisant appel au script javascript affichage lorsqu'on clic dessus -->
+            <div class="btn-txt-file">
+                <button class="btn-choice" id="btn-choice-txt" onclick="affichage('texte')">Texte</button>
+                <button class="btn-choice" id="btn-choice-file" onclick="affichage('fichier')">Fichier</button>
+            </div>
+
+            <div class="container-bloc">
+                <div class="text-input" class="input-group mb-3">
+                    <h2>Traduction de texte</h2>
+                    <form method="post" action="/afficher_la_traduction">
+                        <div class="row">
+                            <div class="col">
+                                <label for="source" class="trad-langue">Langue source</label>
+                                <select id="source" name="source" class="form-select">
+                                    <option selected value="fr">Français</option>
+                                    <option value="en">Anglais</option>
+                                    <option value="de">Allemand</option>
+                                    <option value="es">Espagnol</option>
+                                    <option value="nl">Néerlandais</option>
+                                    <option value="pt">Portugais</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="cible" class="trad-langue">Langue cible</label>
+                                <select id="cible" name="cible" class="form-select">
+                                    <option value="fr">Français</option>
+                                    <option value="en">Anglais</option>
+                                    <option value="de">Allemand</option>
+                                    <option selected value="es">Espagnol</option>
+                                    <option value="nl">Néerlandais</option>
+                                    <option value="pt">Portugais</option>
+                                </select>
+                            </div>
+                        </div>
+                        <textarea type="text" class="form-control" name="phrase" aria-describedby="inputGroup-sizing-default" placeholder="Entrez le texte à traduire..." id="user_text-trad"></textarea>
+                        <input id="langtext" type="submit" value="⏎"/>
+                    </form>
+                </div>
+
+                <!-- d-none va permettre de ne pas afficher cette partie lors du chargement de la page -->
+                <div class=" hidden_container d-none">
+                    <div class="file-input" class="input-group mb-3" class="d-none">
+                        <h2>Traduction du contenu d'un fichier</h2>
+                        <form method="post" action="/afficher_la_traduction_file" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="source_file" class="trad-langue">Langue source</label>
+                                    <select id="source_file" name="source" class="form-select">
+                                        <option selected value="fr">Français</option>
+                                        <option value="en">Anglais</option>
+                                        <option value="de">Allemand</option>
+                                        <option value="es">Espagnol</option>
+                                        <option value="nl">Néerlandais</option>
+                                        <option value="pt">Portugais</option>
+                                    </select>
+                                </div>
+
+                                <div class="col">
+                                    <label for="cible_file" class="trad-langue">Langue cible</label>
+                                    <select id="cible_file" name="cible" class="form-select">
+                                        <option value="fr">Français</option>
+                                        <option value="en">Anglais</option>
+                                        <option value="de">Allemand</option>
+                                        <option selected value="es">Espagnol</option>
+                                        <option value="nl">Néerlandais</option>
+                                        <option value="pt">Portugais</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="user_file" id="trad-file-label">Sélectionnez un fichier à importer:</label>
+                            <div id="select_file" class="mx-auto text-center">
+                                <input type="file" name="file" id="user_file" accept="text/plain">
+                            </div>
+                            <div>
+                                <input id="langfile" type="submit" value="⏎"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Affichage du résultat de la traduction -->
+                <div>
+                    {% if submit %}
+                        <div id="result">{{ traduction }}</div>
+                        <!-- boutons qui permettent de copier ou télécharger la traduction-->
+                        <div id="boutons">
+                            <button id="copier" onClick="copie()">Copier</button>
+                            <button id="telecharger" onClick="download()">Télécharger</button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- menu déroulant expliquant le modèle utilisé pour la traduction -->
+            <div class="dropdown">
+                <button type="button" class="collapsible" onclick="unroll()">Comment ça fonctionne ?</button>
+                <div class="content">
+                    <p>Pour la traduction automatique, c'est le package python deep-translators qui a été utilisé.</p>
+                </div>
+            </div>
+        {% endblock %}
+    </body>
+</html>
