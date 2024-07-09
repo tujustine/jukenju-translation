@@ -1,4 +1,4 @@
-# lancer dans le dossier ouù se trouve le fichier
+# lancer dans le dossier où se trouve le fichier
 # uvicorn main:app --reload
 # lancer : http://127.0.0.1:8000
 import json

@@ -1,39 +1,86 @@
 /*
-ajout de l'attribut class à l'élément body en lui assignant la valeur de mode qui gère si le site est en mode
-light ou dark.
-la fonction localStorage.getItem permet de sauvegarder l'état du site même si l'utilisateur quitte la page
--> si vous quittez la page en mode clair, et que vous ne supprimez pas vos caches entre temps,
-lorsque vous reviendrez sur la page, elle s'affichera de nouveau en mode clair, même si le mode
-par défaut est le mode dark
+    code permettant de passer du mode sombre au mode clair et inversement et de sauvegarder 
+    l'information dans le localStorage afin de s'en resservir. 
+    Le mode par défaut est le mode sombre mais si on quitte la page en mode clair et 
+    qu'on décide de revenir dessus (sans avoir vidé les caches) alors le mode qui s'affiche
+    sera le mode clair.
  */
-$(document).ready(function (){
-    document.getElementById("body").setAttribute("class", localStorage.getItem("mode"));
-});
 
-/*
-permet de switcher entre le mode light et le mode dark du site à l'aide du bouton en bas à droite de
-l'écran sur le site
- */
-function switchTheme() {
-    // Sélectionne le body de la page
-    const body = document.querySelector('body');
+$(document).ready(function () {
+    // Initialisation du mode et de l'icône en fonction du stockage local
 
-    // Vérifie si le mode clair est activé
-    const screenMode = body.getAttribute("class");
-    const icon = document.querySelector('#theme-icon');
-
-    // Si le mode clair est activé, active le mode sombre, sinon active le mode clair
-    if (screenMode === "dark-screen") {
-        body.classList.remove('dark-screen');
-        body.classList.add('light-screen');
-        icon.src = '/static/css/img/matin.png';
-        icon.alt = 'mode clair';
-        localStorage.setItem('mode', 'light-screen');
-    } else {
-        body.classList.remove('light-screen');
-        body.classList.add('dark-screen');
-        icon.src = '/static/css/img/nuit.png';
-        icon.alt = 'mode sombre';
-        localStorage.setItem('mode', 'dark-screen');
+    // Récupère le mode (clair ou sombre) depuis le localStorage, par défaut dark-screen
+    let savedMode = localStorage.getItem('mode');
+    if (savedMode === null) {
+        savedMode = 'dark-screen';
     }
-}
+
+    // Récupère l'icône correspondant au mode depuis le localStorage, par défaut 'nuit.png'
+    let savedIcon = localStorage.getItem('icon');
+    if (savedIcon === null) {
+        savedIcon = '/static/css/img/nuit.png';
+    }
+
+    // Ajout de l'attribut class au body qui a la valeur récupérée de la clé mode (sera donc light ou dark)
+    document.getElementById('body').setAttribute('class', savedMode);
+    // Récupère l'élément img de l'icône du thème
+    const icon = document.getElementById('theme-icon');
+    icon.src = savedIcon;
+
+    // Définit l'attribut alt de l'icône en fonction du mode
+    if (savedMode === 'dark-screen') {
+        icon.alt = 'mode sombre';
+    }
+    else {
+        icon.alt = 'mode clair';
+    }
+
+    // Fonction pour changer de thème
+    function switchTheme() {
+        const body = document.querySelector('body');
+
+        // Détermine le mode actuel en vérifiant la classe du body
+        let currentMode;
+        if (body.classList.contains('dark-screen')) {
+            currentMode = 'dark-screen';
+        }
+        else {
+            currentMode = 'light-screen';
+        }
+
+        // Détermine le nouveau mode en basculant entre 'dark-screen' et 'light-screen'
+        let newMode;
+        if (currentMode === 'dark-screen') {
+            newMode = 'light-screen';
+        }
+        else {
+            newMode = 'dark-screen';
+        }
+
+        body.classList.remove(currentMode);
+        body.classList.add(newMode);
+        // Stocke le nouveau mode dans le localStorage
+        localStorage.setItem('mode', newMode);
+        updateThemeIcon(newMode);
+    }
+
+    // Fonction pour mettre à jour l'icône en fonction du mode
+    function updateThemeIcon(mode) {
+        // Récupère l'élément img de l'icône du thème
+        const icon = document.getElementById('theme-icon');
+        if (mode === 'dark-screen') {
+            icon.src = '/static/css/img/nuit.png';
+            icon.alt = 'mode sombre';
+            localStorage.setItem('icon', '/static/css/img/nuit.png');
+        } else {
+            icon.src = '/static/css/img/matin.png';
+            icon.alt = 'mode clair';
+            localStorage.setItem('icon', '/static/css/img/matin.png');
+        }
+    }
+
+    // Attache l'événement de clic au bouton ayant pour identifiant theme-switcher
+    $('#theme-switcher').click(function () {
+        switchTheme();
+    });
+});
