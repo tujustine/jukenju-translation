@@ -16,8 +16,13 @@ from deep_translator import GoogleTranslator
 from fastapi.encoders import jsonable_encoder
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+templates = Jinja2Templates(directory=TEMPLATES_DIR)
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 MSG_DATABASE_FILE = "./static/json/sent_messages.json"
 
@@ -162,4 +167,4 @@ async def recup_message(request: Request):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level="info")
+    uvicorn.run("site.main:app", host="0.0.0.0", port=8000, log_level="info")
