@@ -16,15 +16,21 @@ from deep_translator import GoogleTranslator
 from fastapi.encoders import jsonable_encoder
 
 app = FastAPI()
-templates = Jinja2Templates(directory='templates')
-app.mount("/static", StaticFiles(directory='static'), name="static")
+# Détermine le chemin absolu des répertoires
+current_dir = os.path.dirname(os.path.abspath(__file__))
+static_dir = os.path.join(current_dir, 'static')
+templates_dir = os.path.join(current_dir, 'templates')
+model_dir = os.path.join(current_dir, 'modeles')
+msg_db_file = os.path.join(static_dir, 'json/sent_messages.json')
 
-MSG_DATABASE_FILE = "./static/json/sent_messages.json"
+templates = Jinja2Templates(directory=templates_dir)
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-if os.path.exists(MSG_DATABASE_FILE):
-     with open(MSG_DATABASE_FILE) as f:
+if os.path.exists(msg_db_file):
+     with open(msg_db_file) as f:
          MSG_DATABASE = json.load(f)
-
+else:
+    MSG_DATABASE = []
 
 class Message(BaseModel):
     id : Optional[str] = uuid4().int
@@ -34,7 +40,7 @@ class Message(BaseModel):
     message : str
 
 
-@app.get("/", response_class=HTMLResponse) # get pour demander une tache
+@app.get("/") # get pour demander une tache
 async def root(request: Request):
     """
     Fonction qui mène à la page d'accueil
@@ -75,7 +81,7 @@ async def afficher_la_langue(request: Request, phrase: Optional[str] = Form(None
     if not phrase:
         return templates.TemplateResponse("identification.html", {"request": request, "submit": False})
     else:
-        model = pickle.load(open("./modeles/model_lr-cv", "rb"))
+        model = pickle.load(open(os.path.join(model_dir, "model_lr-cv"), "rb"))
         langue = model.predict([phrase.lower()])[0]
         submit = True
         return templates.TemplateResponse("identification.html", {"request": request, "langue": langue, "submit": submit})
@@ -93,7 +99,7 @@ async def afficher_la_langue_file(request: Request, file: Optional[UploadFile]):
     else:
         contents = await file.read()
         phrase = contents.decode("utf-8")
-        model = pickle.load(open("./modeles/model_lr-cv", "rb"))
+        model = pickle.load(open(os.path.join(model_dir, "model_lr-cv"), "rb"))
         langue = model.predict([phrase.lower()])[0]
         submit = True
         return templates.TemplateResponse("identification.html", {"request": request, "langue": langue, "submit": submit})
@@ -155,7 +161,7 @@ async def recup_message(request: Request):
     json_recette = jsonable_encoder(envoi)
 
     MSG_DATABASE.append(json_recette)
-    with open(MSG_DATABASE_FILE, 'w') as file:
+    with open(msg_db_file, 'w') as file:
          json.dump(MSG_DATABASE, file)
     raise HTTPException(status_code=204)
 
